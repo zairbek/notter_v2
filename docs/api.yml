@@ -1,0 +1,111 @@
+swagger: "2.0"
+info:
+  description: "notter service"
+  version: "1.0.0"
+  title: "Notter Service"
+host: "notter.loc"
+basePath: "/api"
+schemes:
+  - "http"
+paths:
+  /auth/sign-up:
+    post:
+      summary: "Регистрация"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: '#/definitions/SignUp'
+      responses:
+        200:
+          description: "Пользователь зарегистрировался"
+          schema:
+            properties:
+              data:
+                $ref: '#/definitions/AuthResponse'
+        422:
+          description: "Отправлены некорректные данные"
+  /auth/sign-in:
+    post:
+      summary: "Авторизация"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: '#/definitions/SignInForm'
+      responses:
+        200:
+          description: "Пользователь авторизован"
+          schema:
+            properties:
+              data:
+                $ref: '#/definitions/AuthResponse'
+        403:
+          description: "Логин или пароль некорректные"
+  /auth/user:
+    get:
+      summary: "Возвращает текущего авторизованного пользователя"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Объект авторизации (пользователь)"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: '#/definitions/AuthResponse'
+
+        401:
+          description: "Пользователь неавторизован"
+
+definitions:
+  SignUp:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@mail.ru"
+      password:
+        type: "string"
+        example: "123456"
+      password_confirmation:
+        type: "string"
+        example: "123456"
+  SignInForm:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@mail.ru"
+      password:
+        type: "string"
+        example: "123456"
+  AuthResponse:
+    type: "object"
+    properties:
+      user:
+        $ref: '#/definitions/User'
+
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: "123"
+      name:
+        type: "string"
+        example: "Василий Васильевич Пупкин"
+      email:
+        type: "string"
+        example: "test@mail.ru"
