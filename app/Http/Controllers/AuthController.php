@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthResource;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class AuthController extends Controller
         $user->password = $request->password;
         $user->save();
 
-        return $this->sendFailedLoginResponse($request);
+        return $this->authenticated($request, $user);
     }
 
     public function signIn(Request $request)
@@ -46,27 +47,16 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         $user = auth()->user();
-        return [
-            'data' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email
-            ]
-        ];
+
+        return new AuthResource($user);
     }
 
     protected function authenticated(Request $request, $user)
     {
         $token = $this->getTokenAndRefreshToken($request->email, $request->password);
-        return response([
-            'data' => [
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email
-                ]
-            ]
-        ])
+
+        return (new AuthResource($user))
+            ->response()
             ->header('access-token', $token['access_token'])
             ->header('refresh-token', $token['refresh_token'])
             ->header('token-type', $token['token_type'])
@@ -75,7 +65,9 @@ class AuthController extends Controller
     }
 
 
-    public function getTokenAndRefreshToken($email, $password) {
+
+
+    private function getTokenAndRefreshToken($email, $password) {
         /** @src https://qna.habr.com/qe/652418 */
         $oClient = OClient::where('password_client', 1)->first();
         $server = app(AuthorizationServer::class);
@@ -91,6 +83,5 @@ class AuthController extends Controller
 
         return $token;
     }
-
 
 }

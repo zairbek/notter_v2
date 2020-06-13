@@ -37,9 +37,8 @@ class UserTest extends TestCase
         $this->token = $this->getTokenAndRefreshToken($this->user->email, '121212');
         $this->defaultHeaders = ['Authorization' => "Bearer {$this->token['access_token']}"];
         $response = $this->getJson(route('auth.user'));
-
         $response->assertSuccessful();
-        $this->assertEquals($this->user->id, $response->json('data.id'));
+        $this->assertEquals($this->user->id, $response->json('data.user.id'));
     }
 
     /**
