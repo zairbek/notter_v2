@@ -37,10 +37,22 @@ class AuthController extends Controller
     {
         $this->validateLogin($request);
         if ($this->attemptLogin($request)) {
-            return $this->authenticated($request, Auth::user());
+            return $this->authenticated($request, auth()->user());
         }
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function user(Request $request)
+    {
+        $user = auth()->user();
+        return [
+            'data' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ]
+        ];
     }
 
     protected function authenticated(Request $request, $user)
