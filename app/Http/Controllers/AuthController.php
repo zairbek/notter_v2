@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client as OClient;
 use GuzzleHttp\Psr7\ServerRequest as GuzzleRequest;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    use AuthenticatesUsers;
+
     public function signUp(Request $request)
     {
         $this->validate($request, [
@@ -27,6 +30,21 @@ class AuthController extends Controller
         $user->password = $request->password;
         $user->save();
 
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    public function signIn(Request $request)
+    {
+        $this->validateLogin($request);
+        if ($this->attemptLogin($request)) {
+            return $this->authenticated($request, Auth::user());
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
         $token = $this->getTokenAndRefreshToken($request->email, $request->password);
         return response([
             'data' => [
@@ -41,8 +59,7 @@ class AuthController extends Controller
             ->header('refresh-token', $token['refresh_token'])
             ->header('token-type', $token['token_type'])
             ->header('expires-in', $token['expires_in'])
-        ;
-
+            ;
     }
 
 
