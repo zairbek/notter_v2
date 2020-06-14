@@ -4,18 +4,22 @@
 namespace Tests\Feature;
 
 
+use App\Notifications\VerifyEamilNotification;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class SignUpTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * @test
      */
     public function success()
     {
         $response = $this->postJson(route('auth.sign-up'), [
-            'email' => 'test@mail.ru',
+            'email' => 'tessast@maisd.runn',
             'name' => 'Zair',
             'password' => '123456',
             'password_confirmation' => '123456',
@@ -52,6 +56,25 @@ class SignUpTest extends TestCase
             'Отсуствует password' => [['name' => 'вася', 'email' => 'test@mail.ru', 'password_confirmation' => '12121212'], ['password']],
             'Пароли не совпадают' => [['name' => 'вася', 'password' => '12121212', 'email' => 'test@mail.ru'], ['password']],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function notification_send_on_register()
+    {
+        Notification::fake();
+        $this->postJson(route('auth.sign-up'), [
+            'email' => 'teaassdast@maissasdal.r',
+            'name' => 'Zair',
+            'password' => '123456',
+            'password_confirmation' => '123456',
+        ]);
+        $user = User::whereEmail('teaassdast@maissasdal.r')->first();
+        Notification::assertSentTo($user, VerifyEamilNotification::class, function ($notification) use ($user) {
+            return $notification->user->id === $user->id;
+        });
+
     }
 
 }

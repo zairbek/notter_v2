@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AuthResource;
+use App\Notifications\VerifyEamilNotification;
 use App\User;
+use Carbon\Carbon;
 use Exception;
 use Firebase\JWT\ExpiredException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -34,6 +36,8 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->password = $request->password;
         $user->save();
+
+        $user->notify(new VerifyEamilNotification($user));
 
         return $this->authenticated($request, $user);
     }
@@ -82,7 +86,11 @@ class AuthController extends Controller
             ;
     }
 
-
+    public function verify(User $user)
+    {
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+    }
 
 
     private function getTokenAndRefreshToken($email, $password) {
