@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\V1\Todo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class TodoController extends Controller
+class TodoListController extends Controller
 {
     public function index()
     {

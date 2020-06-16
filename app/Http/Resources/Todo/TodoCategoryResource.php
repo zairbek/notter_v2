@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Todo;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthResource extends JsonResource
+class TodoCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,9 @@ class AuthResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user' => [
+            'category' => [
                 'id' => $this->id,
-                'name' => $this->name,
-                'email' => $this->email
+                'title' => $this->title,
             ]
         ];
     }
