@@ -10,7 +10,7 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api', 'namespace' => 'Api\V1\Todo'], function () {
 
-    Route::post('todo-category', 'TodoCategoryController@store')->name('todo.category.store');
+    Route::apiResource('todo-category', 'TodoCategoryController')->names('todo.category');
 
 
 });

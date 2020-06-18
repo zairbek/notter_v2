@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Todo\TodoCategoryResource;
 use App\Model\Todo\TodoCategory;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -13,11 +14,11 @@ class TodoCategoryController extends Controller
 {
     public function index()
     {
-        $todoCategory = TodoCategory::all();
+        /** @var User $user */
+        $user = auth()->user();
+        $todoCategory = $user->todoCategories();
 
-        return response([
-            'data' => $todoCategory
-        ]);
+        return $todoCategory->paginate(6);
     }
 
     public function store(Request $request)

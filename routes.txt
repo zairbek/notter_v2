@@ -1,0 +1,52 @@
++--------+-----------+-----------------------------------------+-----------------------------------+---------------------------------------------------------------------------+
+| Domain | Method    | URI                                     | Name                              | Action                                                                    |
++--------+-----------+-----------------------------------------+-----------------------------------+---------------------------------------------------------------------------+
+|        | GET|HEAD  | /                                       |                                   | Closure                                                                   |
+|        |           |                                         |                                   |                                                                           |
+|        | GET|HEAD  | _debugbar/assets/javascript             | debugbar.assets.js                | Barryvdh\Debugbar\Controllers\AssetController@js                          |
+|        | GET|HEAD  | _debugbar/assets/stylesheets            | debugbar.assets.css               | Barryvdh\Debugbar\Controllers\AssetController@css                         |
+|        | DELETE    | _debugbar/cache/{key}/{tags?}           | debugbar.cache.delete             | Barryvdh\Debugbar\Controllers\CacheController@delete                      |
+|        | GET|HEAD  | _debugbar/clockwork/{id}                | debugbar.clockwork                | Barryvdh\Debugbar\Controllers\OpenHandlerController@clockwork             |
+|        | GET|HEAD  | _debugbar/open                          | debugbar.openhandler              | Barryvdh\Debugbar\Controllers\OpenHandlerController@handle                |
+|        | GET|HEAD  | _debugbar/telescope/{id}                | debugbar.telescope                | Barryvdh\Debugbar\Controllers\TelescopeController@show                    |
+|        |           |                                         |                                   |                                                                           |
+|        | POST      | api/auth/refresh-token                  | auth.refresh-token                | App\Http\Controllers\AuthController@refreshToken                          |
+|        | POST      | api/auth/sign-in                        | auth.sign-in                      | App\Http\Controllers\AuthController@signIn                                |
+|        | POST      | api/auth/sign-up                        | auth.sign-up                      | App\Http\Controllers\AuthController@signUp                                |
+|        | GET|HEAD  | api/auth/user                           | auth.user                         | App\Http\Controllers\AuthController@user                                  |
+|        | GET|HEAD  | api/auth/verify-email/{user}            | auth.verify                       | App\Http\Controllers\AuthController@verify                                |
+|        |           |                                         |                                   |                                                                           |
+|        | GET|HEAD  | api/v1/todo-category                    | todo.category.index               | App\Http\Controllers\Api\V1\Todo\TodoCategoryController@index             |
+|        | POST      | api/v1/todo-category                    | todo.category.store               | App\Http\Controllers\Api\V1\Todo\TodoCategoryController@store             |
+|        | DELETE    | api/v1/todo-category/{todo_category}    | todo.category.destroy             | App\Http\Controllers\Api\V1\Todo\TodoCategoryController@destroy           |
+|        | PUT|PATCH | api/v1/todo-category/{todo_category}    | todo.category.update              | App\Http\Controllers\Api\V1\Todo\TodoCategoryController@update            |
+|        | GET|HEAD  | api/v1/todo-category/{todo_category}    | todo.category.show                | App\Http\Controllers\Api\V1\Todo\TodoCategoryController@show              |
+|        |           |                                         |                                   |                                                                           |
+|        | GET|HEAD  | home                                    | home                              | App\Http\Controllers\HomeController@index                                 |
+|        | GET|HEAD  | login                                   | login                             | App\Http\Controllers\Auth\LoginController@showLoginForm                   |
+|        | POST      | login                                   |                                   | App\Http\Controllers\Auth\LoginController@login                           |
+|        | POST      | logout                                  | logout                            | App\Http\Controllers\Auth\LoginController@logout                          |
+|        | GET|HEAD  | oauth/authorize                         | passport.authorizations.authorize | Laravel\Passport\Http\Controllers\AuthorizationController@authorize       |
+|        | DELETE    | oauth/authorize                         | passport.authorizations.deny      | Laravel\Passport\Http\Controllers\DenyAuthorizationController@deny        |
+|        | POST      | oauth/authorize                         | passport.authorizations.approve   | Laravel\Passport\Http\Controllers\ApproveAuthorizationController@approve  |
+|        | POST      | oauth/clients                           | passport.clients.store            | Laravel\Passport\Http\Controllers\ClientController@store                  |
+|        | GET|HEAD  | oauth/clients                           | passport.clients.index            | Laravel\Passport\Http\Controllers\ClientController@forUser                |
+|        | DELETE    | oauth/clients/{client_id}               | passport.clients.destroy          | Laravel\Passport\Http\Controllers\ClientController@destroy                |
+|        | PUT       | oauth/clients/{client_id}               | passport.clients.update           | Laravel\Passport\Http\Controllers\ClientController@update                 |
+|        | POST      | oauth/personal-access-tokens            | passport.personal.tokens.store    | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@store     |
+|        | GET|HEAD  | oauth/personal-access-tokens            | passport.personal.tokens.index    | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@forUser   |
+|        | DELETE    | oauth/personal-access-tokens/{token_id} | passport.personal.tokens.destroy  | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@destroy   |
+|        | GET|HEAD  | oauth/scopes                            | passport.scopes.index             | Laravel\Passport\Http\Controllers\ScopeController@all                     |
+|        | POST      | oauth/token                             | passport.token                    | Laravel\Passport\Http\Controllers\AccessTokenController@issueToken        |
+|        | POST      | oauth/token/refresh                     | passport.token.refresh            | Laravel\Passport\Http\Controllers\TransientTokenController@refresh        |
+|        | GET|HEAD  | oauth/tokens                            | passport.tokens.index             | Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@forUser |
+|        | DELETE    | oauth/tokens/{token_id}                 | passport.tokens.destroy           | Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@destroy |
+|        | GET|HEAD  | password/confirm                         | password.confirm                   | App\Http\Controllers\Auth\ConfirmPasswordController@showConfirmForm         |
+|        | POST      | password/confirm                         |                                   | App\Http\Controllers\Auth\ConfirmPasswordController@confirm                 |
+|        | POST      | password/email                          | password.email                    | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail     |
+|        | GET|HEAD  | password/reset                          | password.request                  | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm    |
+|        | POST      | password/reset                          | password.update                   | App\Http\Controllers\Auth\ResetPasswordController@reset                   |
+|        | GET|HEAD  | password/reset/{token}                  | password.reset                    | App\Http\Controllers\Auth\ResetPasswordController@showResetForm           |
+|        | GET|HEAD  | register                                | register                          | App\Http\Controllers\Auth\RegisterController@showRegistrationForm         |
+|        | POST      | register                                |                                   | App\Http\Controllers\Auth\RegisterController@register                     |
++--------+-----------+-----------------------------------------+-----------------------------------+---------------------------------------------------------------------------+
