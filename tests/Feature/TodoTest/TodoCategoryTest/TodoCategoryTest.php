@@ -23,9 +23,11 @@ class TodoCategoryTest extends TestCase
         parent::setUp();
 
         $password = 121212;
-        $this->user = factory(User::class)->create([
-            'password' => $password
-        ]);
+        $email = 'edythe.leannon@example.com';
+//        $email = 'zane.schultz@example.org';
+//        $this->user = factory(User::class)->create([
+//            'password' => $password
+//        ]);
 
         $oClient = OClient::where('password_client', 1)->first();
         $server = app(AuthorizationServer::class);
@@ -33,21 +35,40 @@ class TodoCategoryTest extends TestCase
             'grant_type' => 'password',
             'client_id' => $oClient->id,
             'client_secret' => $oClient->secret,
-            'username' => $this->user->email,
+            'username' => $email,
             'password' => $password,
             'scope' => '*',
         ]), new GuzzleResponse());
         $token = json_decode((string) $psrReponse->getBody(), true);
 
         $this->token = $token['access_token'];
+        $this->defaultHeaders = ['Authorization' => "Bearer {$this->token}"];
     }
 
     /**
      * @test
      */
-    public function index()
+    public function index_success()
     {
+        $response = $this->getJson(route('todo.category.index'));
 
+        $response->assertSuccessful();
+        $response->assertStatus(200);
+        $this->assertIsArray($response->json());
+        dd($response->json());
+    }
+
+    /**
+     * @test
+     */
+    public function index_next_per_page_success()
+    {
+        $response = $this->getJson(route('todo.category.index') . '?page=2');
+
+        $response->assertSuccessful();
+        $response->assertStatus(200);
+        $this->assertIsArray($response->json());
+        dd($response->json());
     }
 
     /**
@@ -62,7 +83,6 @@ class TodoCategoryTest extends TestCase
             'parent_id' => $faker->numberBetween(0, 10),
         ];
 
-        $this->defaultHeaders = ['Authorization' => "Bearer {$this->token}"];
         $response = $this->postJson(route('todo.category.store'), $data);
 
         $response->assertSuccessful();

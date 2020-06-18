@@ -17,7 +17,11 @@ class TodoCategoryResource extends JsonResource
         return [
             'category' => [
                 'id' => $this->id,
+                'parent_id' => $this->parent_id,
+                'user_id' => $this->user_id,
                 'title' => $this->title,
+                'slug' => $this->slug,
+                'description' => $this->description,
             ]
         ];
     }
