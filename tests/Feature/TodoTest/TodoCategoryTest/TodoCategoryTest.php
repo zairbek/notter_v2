@@ -55,21 +55,20 @@ class TodoCategoryTest extends TestCase
         $response->assertSuccessful();
         $response->assertStatus(200);
         $this->assertIsArray($response->json());
-        dd($response->json());
     }
 
     /**
      * @test
      */
-    public function index_next_per_page_success()
-    {
-        $response = $this->getJson(route('todo.category.index') . '?page=2');
-
-        $response->assertSuccessful();
-        $response->assertStatus(200);
-        $this->assertIsArray($response->json());
-        dd($response->json());
-    }
+//    public function index_next_per_page_success()
+//    {
+//        $response = $this->getJson(route('todo.category.index') . '?page=2');
+//
+//        $response->assertSuccessful();
+//        $response->assertStatus(200);
+//        $this->assertIsArray($response->json());
+//        dd($response->json());
+//    }
 
     /**
      * @test

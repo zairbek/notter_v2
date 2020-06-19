@@ -16,9 +16,12 @@ class TodoCategoryController extends Controller
     {
         /** @var User $user */
         $user = auth()->user();
-        $todoCategory = $user->todoCategories();
+        $todoCategory =
+            $user->todoCategories()
+                ->orderBy('parent_id', 'asc')
+                ->get();
 
-        return $todoCategory->paginate(6);
+        return $todoCategory;
     }
 
     public function store(Request $request)
