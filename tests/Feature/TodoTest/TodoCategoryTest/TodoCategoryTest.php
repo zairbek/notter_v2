@@ -2,6 +2,7 @@
 namespace Tests\Feature;
 
 
+use App\Model\Todo\TodoCategory;
 use App\User;
 use Faker\Factory;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
@@ -88,5 +89,21 @@ class TodoCategoryTest extends TestCase
         $this->assertEquals($data['title'], $response['data']['category']['title']);
     }
 
+    /**
+     * @test
+     */
+    public function show_success()
+    {
+        $todoCategory = factory(TodoCategory::class)->create([
+            'user_id' => 1
+        ]);
+
+        $response = $this->getJson(route('todo.category.show', $todoCategory->id));
+
+        $response->assertSuccessful();
+        $this->assertEquals($todoCategory->id, $response->json('id'));
+        $this->assertEquals($todoCategory->parent_id, $response->json('parent_id'));
+        $this->assertEquals($todoCategory->user_id, $response->json('user_id'));
+    }
 
 }

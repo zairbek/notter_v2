@@ -46,7 +46,14 @@ class TodoCategoryController extends Controller
 
     public function show($id)
     {
-        //
+        /** @var User $user */
+        $user = auth()->user();
+        $todoCategory =
+            $user->todoCategories()
+                ->where('id', $id)
+                ->first();
+
+        return $todoCategory;
     }
 
     public function update(Request $request, $id)
