@@ -75,6 +75,17 @@ class TodoCategoryController extends Controller
 
     public function destroy($id)
     {
-        //
+        /** @var User $user */
+        $user = auth()->user();
+        $todoCategory =
+            $user->todoCategories()
+                ->where('id', $id)
+                ->delete();
+
+        if (!$todoCategory) {
+            return response(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

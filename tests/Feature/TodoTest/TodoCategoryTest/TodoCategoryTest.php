@@ -149,6 +149,23 @@ class TodoCategoryTest extends TestCase
      */
     public function destroy_success()
     {
+        $todoCategory = factory(TodoCategory::class)->create([
+            'user_id' => $this->userId
+        ]);
+        $response = $this->deleteJson(route('todo.category.destroy', $todoCategory->id));
+        $response->assertNoContent();
+    }
 
+    /**
+     * @test
+     */
+    public function destroy_not_found_or_not_deleted()
+    {
+        $fakeCategoryId = 100000000;
+        $todoCategory = factory(TodoCategory::class)->create([
+            'user_id' => $this->userId
+        ]);
+        $response = $this->deleteJson(route('todo.category.destroy', $fakeCategoryId));
+        $response->assertNotFound();
     }
 }
