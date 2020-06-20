@@ -108,14 +108,24 @@ class TodoCategoryTest extends TestCase
     }
 
     /**
-     * test
+     * @test
      */
     public function update_success()
     {
-//        $todoCategory = factory(TodoCategory::class)->create([
-//            'user_id' => $this->userId
-//        ]);
-//        $this->putJson(route('todo.category.update' ));
+        $todoCategory = factory(TodoCategory::class)->create([
+            'user_id' => $this->userId
+        ]);
+        $title = 'erwer';
+        $description = 'sadfasd';
+        $response = $this->putJson(route('todo.category.update', $todoCategory->id), [
+            'title' => $title,
+            'description' => $description
+        ]);
+
+        $response->assertSuccessful();
+        $this->assertEquals($todoCategory->id, $response->json('id'));
+        $this->assertEquals($title, $response->json('title'));
+        $this->assertEquals($description, $response->json('description'));
     }
 
 }

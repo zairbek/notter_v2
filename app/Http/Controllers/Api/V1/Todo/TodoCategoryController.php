@@ -59,7 +59,18 @@ class TodoCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        /** @var User $user */
+        $user = auth()->user();
+        $todoCategory =
+            $user->todoCategories()
+                ->where('id', $id)
+                ->firstOrFail();
 
+        $todoCategory->title = $request['title'];
+        $todoCategory->description = $request['description'];
+        $todoCategory->save();
+
+        return $todoCategory;
     }
 
     public function destroy($id)
