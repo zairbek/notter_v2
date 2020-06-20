@@ -128,4 +128,27 @@ class TodoCategoryTest extends TestCase
         $this->assertEquals($description, $response->json('description'));
     }
 
+    /**
+     * @test
+     */
+    public function update_not_found()
+    {
+        $fakeCategoryId = 100000000;
+        $title = 'erwer';
+        $description = 'sadfasd';
+        $response = $this->putJson(route('todo.category.update', $fakeCategoryId), [
+            'title' => $title,
+            'description' => $description
+        ]);
+        $response->assertNotFound();
+    }
+
+
+    /**
+     * @test
+     */
+    public function destroy_success()
+    {
+
+    }
 }
