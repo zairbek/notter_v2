@@ -8,6 +8,7 @@ use Faker\Factory;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\Psr7\ServerRequest as GuzzleRequest;
 use Laravel\Passport\Client as OClient;
+use Lcobucci\JWT\Parser;
 use League\OAuth2\Server\AuthorizationServer;
 use Tests\TestCase;
 
@@ -18,6 +19,7 @@ class TodoCategoryTest extends TestCase
      */
     private $user;
     private $token;
+    private $userId;
 
     protected function setUp(): void
     {
@@ -44,6 +46,9 @@ class TodoCategoryTest extends TestCase
 
         $this->token = $token['access_token'];
         $this->defaultHeaders = ['Authorization' => "Bearer {$this->token}"];
+
+        $token = (new Parser())->parse($this->token);
+        $this->userId = $token->getClaim('sub');
     }
 
     /**
@@ -57,19 +62,6 @@ class TodoCategoryTest extends TestCase
         $response->assertStatus(200);
         $this->assertIsArray($response->json());
     }
-
-    /**
-     * @test
-     */
-//    public function index_next_per_page_success()
-//    {
-//        $response = $this->getJson(route('todo.category.index') . '?page=2');
-//
-//        $response->assertSuccessful();
-//        $response->assertStatus(200);
-//        $this->assertIsArray($response->json());
-//        dd($response->json());
-//    }
 
     /**
      * @test
@@ -95,7 +87,7 @@ class TodoCategoryTest extends TestCase
     public function show_success()
     {
         $todoCategory = factory(TodoCategory::class)->create([
-            'user_id' => 1
+            'user_id' => $this->userId
         ]);
         $response = $this->getJson(route('todo.category.show', $todoCategory->id));
 
@@ -110,13 +102,20 @@ class TodoCategoryTest extends TestCase
      */
     public function show_not_found()
     {
-        $response = $this->getJson(route('todo.category.show', 1000000));
+        $fakeCategoryId = 100000000;
+        $response = $this->getJson(route('todo.category.show', $fakeCategoryId));
         $response->assertNotFound();
     }
 
+    /**
+     * test
+     */
     public function update_success()
     {
-
+//        $todoCategory = factory(TodoCategory::class)->create([
+//            'user_id' => $this->userId
+//        ]);
+//        $this->putJson(route('todo.category.update' ));
     }
 
 }
