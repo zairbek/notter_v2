@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class TodoCategoryController extends Controller
 {
@@ -51,14 +52,14 @@ class TodoCategoryController extends Controller
         $todoCategory =
             $user->todoCategories()
                 ->where('id', $id)
-                ->first();
+                ->firstOrFail();
 
         return $todoCategory;
     }
 
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     public function destroy($id)

@@ -97,13 +97,26 @@ class TodoCategoryTest extends TestCase
         $todoCategory = factory(TodoCategory::class)->create([
             'user_id' => 1
         ]);
-
         $response = $this->getJson(route('todo.category.show', $todoCategory->id));
 
         $response->assertSuccessful();
         $this->assertEquals($todoCategory->id, $response->json('id'));
         $this->assertEquals($todoCategory->parent_id, $response->json('parent_id'));
         $this->assertEquals($todoCategory->user_id, $response->json('user_id'));
+    }
+
+    /**
+     * @test
+     */
+    public function show_not_found()
+    {
+        $response = $this->getJson(route('todo.category.show', 1000000));
+        $response->assertNotFound();
+    }
+
+    public function update_success()
+    {
+
     }
 
 }
