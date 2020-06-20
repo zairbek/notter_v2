@@ -78,7 +78,7 @@ class TodoCategoryTest extends TestCase
         $response = $this->postJson(route('todo.category.store'), $data);
 
         $response->assertSuccessful();
-        $this->assertEquals($data['title'], $response['data']['category']['title']);
+        $this->assertEquals($data['title'], $response['data']['title']);
     }
 
     /**
