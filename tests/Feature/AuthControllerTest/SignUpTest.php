@@ -19,7 +19,7 @@ class SignUpTest extends TestCase
     public function success()
     {
         $response = $this->postJson(route('auth.sign-up'), [
-            'email' => 'tessast@maisd.runn',
+            'email' => 'test@mail.ru',
             'name' => 'Zair',
             'password' => '123456',
             'password_confirmation' => '123456',
@@ -65,7 +65,7 @@ class SignUpTest extends TestCase
     {
         Notification::fake();
         $this->postJson(route('auth.sign-up'), [
-            'email' => 'teaassdast@maissasdal.r',
+            'email' => 'test@mail.ru',
             'name' => 'Zair',
             'password' => '123456',
             'password_confirmation' => '123456',

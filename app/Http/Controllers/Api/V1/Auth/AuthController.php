@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
 use App\Notifications\VerifyEamilNotification;
 use App\User;
