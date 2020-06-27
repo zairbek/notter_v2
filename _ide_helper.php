@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.15.0 on 2020-06-22 18:12:13.
+ * Generated for Laravel 7.16.1 on 2020-06-27 22:58:09.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -16967,7 +16967,7 @@ namespace  {
             }
          
             /**
-             * Execute a callback over each item while chunking by id.
+             * Execute a callback over each item while chunking by ID.
              *
              * @param callable $callback
              * @param int $count
