@@ -7,12 +7,15 @@ namespace Tests\Feature;
 use App\User;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\Psr7\ServerRequest as GuzzleRequest;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\Client as OClient;
 use League\OAuth2\Server\AuthorizationServer;
 use Tests\TestCase;
 
 class RefreshTokenTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * @test
      */

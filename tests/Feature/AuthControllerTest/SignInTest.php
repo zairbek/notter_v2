@@ -6,10 +6,13 @@ namespace Tests\Feature;
 
 use App\User;
 use Firebase\JWT\JWT;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class SignInTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * @var User
      */

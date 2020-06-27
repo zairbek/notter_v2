@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\Client as OClient;
 use GuzzleHttp\Psr7\ServerRequest as GuzzleRequest;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
@@ -13,6 +14,8 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * @var User
      */

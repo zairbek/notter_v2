@@ -70,7 +70,7 @@ class SignUpTest extends TestCase
             'password' => '123456',
             'password_confirmation' => '123456',
         ]);
-        $user = User::whereEmail('teaassdast@maissasdal.r')->first();
+        $user = User::whereEmail('test@mail.ru')->first();
         Notification::assertSentTo($user, VerifyEamilNotification::class, function ($notification) use ($user) {
             return $notification->user->id === $user->id;
         });
