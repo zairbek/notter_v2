@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8888/api",
+            "url": "http://notter.loc/api/v1",
             "description": "Sansara Dev Server"
         },
         {
@@ -15,26 +15,26 @@
         }
     ],
     "paths": {
-        "/auth/sign-up": {
+        "/auth/refresh-token": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Регистрация",
-                "operationId": "signUp",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SignUp"
-                            }
+                "summary": "Refresh access token & refresh token",
+                "operationId": "refreshToken",
+                "parameters": [
+                    {
+                        "name": "refresh-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "Ok",
                         "headers": {
                             "Access-Token": {
                                 "$ref": "#/components/headers/Access-Token"
@@ -48,24 +48,10 @@
                             "Expires-In": {
                                 "$ref": "#/components/headers/Expires-In"
                             }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                }
-                            }
                         }
                     },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SignUpErrorsSchema"
-                                }
-                            }
-                        }
+                    "403": {
+                        "description": "Refresh token invalid"
                     }
                 }
             }
@@ -125,6 +111,61 @@
                 }
             }
         },
+        "/auth/sign-up": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Регистрация",
+                "operationId": "signUp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignUp"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Access-Token": {
+                                "$ref": "#/components/headers/Access-Token"
+                            },
+                            "Refresh-token": {
+                                "$ref": "#/components/headers/Refresh-token"
+                            },
+                            "Token-Type": {
+                                "$ref": "#/components/headers/Token-Type"
+                            },
+                            "Expires-In": {
+                                "$ref": "#/components/headers/Expires-In"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignUpErrorsSchema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/auth/user": {
             "get": {
                 "tags": [
@@ -159,47 +200,6 @@
                         "bearerAuth": []
                     }
                 ]
-            }
-        },
-        "/auth/refresh-token": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Refresh access token & refresh token",
-                "operationId": "refreshToken",
-                "parameters": [
-                    {
-                        "name": "refresh-token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "headers": {
-                            "Access-Token": {
-                                "$ref": "#/components/headers/Access-Token"
-                            },
-                            "Refresh-token": {
-                                "$ref": "#/components/headers/Refresh-token"
-                            },
-                            "Token-Type": {
-                                "$ref": "#/components/headers/Token-Type"
-                            },
-                            "Expires-In": {
-                                "$ref": "#/components/headers/Expires-In"
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Refresh token invalid"
-                    }
-                }
             }
         }
     },

@@ -6,13 +6,9 @@ namespace App\Http\Controllers\Api;
  *     title="Sansara API Dacumentation",
  *     version="1.0",
  * )
- * @OA\Tag(
- *     name="Authentication",
- *     description="Authentication",
- * )
  * @OA\Server(
  *     description="Sansara Dev Server",
- *     url="http://localhost:8888/api",
+ *     url="http://notter.loc/api/v1",
  * )
  * @OA\Server(
  *     description="Sansara Prod Server",
