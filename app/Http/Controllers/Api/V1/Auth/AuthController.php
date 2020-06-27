@@ -24,6 +24,40 @@ class AuthController extends Controller
 {
     use AuthenticatesUsers;
 
+
+    /**
+     * @OA\Post(
+     *     path="/auth/sign-up",
+     *     tags={"Authentication"},
+     *     summary="Регистрация",
+     *     operationId="signUp",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(ref="#/components/schemas/SignUp")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(ref="#/components/schemas/AuthResponse"),
+     *         @OA\Header(header="Access-Token", ref="#/components/headers/Access-Token"),
+     *         @OA\Header(header="Refresh-token", ref="#/components/headers/Refresh-token"),
+     *         @OA\Header(header="Token-Type", ref="#/components/headers/Token-Type"),
+     *         @OA\Header(header="Expires-In", ref="#/components/headers/Expires-In"),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(ref="#/components/schemas/SignUpErrorsSchema"),
+     *     ),
+     * )
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function signUp(Request $request)
     {
         $this->validate($request, [
@@ -43,6 +77,41 @@ class AuthController extends Controller
         return $this->authenticated($request, $user);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/auth/sign-in",
+     *     tags={"Authentication"},
+     *     summary="Авторизация",
+     *     operationId="signIn",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(ref="#/components/schemas/SignIn")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/AuthResponse"),
+     *         @OA\Header(header="Access-Token", ref="#/components/headers/Access-Token"),
+     *         @OA\Header(header="Refresh-token", ref="#/components/headers/Refresh-token"),
+     *         @OA\Header(header="Token-Type", ref="#/components/headers/Token-Type"),
+     *         @OA\Header(header="Expires-In", ref="#/components/headers/Expires-In"),
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(ref="#/components/schemas/SignInErrorsSchema"),
+     *     ),
+     * )
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+
     public function signIn(Request $request)
     {
         $this->validateLogin($request);
@@ -53,6 +122,28 @@ class AuthController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
+    /**
+     * @OA\Get(
+     *   path="/auth/user",
+     *   operationId="user",
+     *   tags={"Authentication"},
+     *   summary="Возвращает текущего авторизованного пользователя",
+     *   security={{"bearerAuth":{}}},
+     *   @OA\Response(
+     *     response=200,
+     *     description="Ok",
+     *     @OA\JsonContent(ref="#/components/schemas/AuthResponse"),
+     *   ),
+     *   @OA\Response(
+     *     response=401,
+     *     description="Unauthorized",
+     *     @OA\JsonContent(ref="#/components/schemas/UserUnauthenticatedSchema"),
+     *   )
+     * )
+     *
+     * @param Request $request
+     * @return AuthResource
+     */
     public function user(Request $request)
     {
         $user = auth()->user();
@@ -60,6 +151,38 @@ class AuthController extends Controller
         return new AuthResource($user);
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/auth/refresh-token",
+     *     operationId="refreshToken",
+     *     tags={"Authentication"},
+     *     summary="Refresh access token & refresh token",
+     *     @OA\Parameter(
+     *         in="header",
+     *         name="refresh-token",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\Header(header="Access-Token", ref="#/components/headers/Access-Token"),
+     *         @OA\Header(header="Refresh-token", ref="#/components/headers/Refresh-token"),
+     *         @OA\Header(header="Token-Type", ref="#/components/headers/Token-Type"),
+     *         @OA\Header(header="Expires-In", ref="#/components/headers/Expires-In"),
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Refresh token invalid",
+     *     ),
+     * )
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|Response
+     */
     public function refreshToken(Request $request)
     {
         $token = $this->generateRefreshToken($request);

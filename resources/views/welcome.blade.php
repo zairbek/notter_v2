@@ -94,6 +94,9 @@
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                <div class="links" style="margin-top: 20px">
+                    <a href="/api/documentation">API Docs</a>
+                </div>
             </div>
         </div>
     </body>

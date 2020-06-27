@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.15.0 on 2020-06-20 09:07:55.
+ * Generated for Laravel 7.15.0 on 2020-06-22 18:12:13.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15937,6 +15937,29 @@ namespace Barryvdh\Debugbar {
  
 }
 
+namespace L5Swagger { 
+
+    /**
+     * 
+     *
+     */ 
+    class L5SwaggerFacade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function generateDocs()
+        {
+                        /** @var \L5Swagger\Generator $instance */
+                        return $instance->generateDocs();
+        }
+         
+    }
+ 
+}
+
 namespace Facade\Ignition\Facades { 
 
     /**
@@ -19152,6 +19175,8 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
+
+    class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
 
     class Flare extends \Facade\Ignition\Facades\Flare {}
  
