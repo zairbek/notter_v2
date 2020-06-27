@@ -8,7 +8,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
  * )
  */
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\AuthResource;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\Psr7\ServerRequest as GuzzleRequest;
@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 use League\OAuth2\Server\AuthorizationServer;
 use Exception;
 use Laravel\Passport\Client as OClient;
-
 
 class AuthBaseController extends Controller
 {
